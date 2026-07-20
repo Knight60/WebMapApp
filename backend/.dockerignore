@@ -1,0 +1,22 @@
+# Python local env / caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Secrets — never bake into an image
+.env
+.env.local
+secrets/
+
+# Local-only data
+data/raw/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

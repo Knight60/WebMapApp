@@ -1,0 +1,23 @@
+# Explicit — without this file gcloud falls back to .gitignore, which excludes
+# static/ (the built frontend) and would upload a backend with no web root.
+
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Secrets — never upload
+.env
+.env.local
+secrets/
+
+# Local-only data
+data/raw/
+
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

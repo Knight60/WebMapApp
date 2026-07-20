@@ -1,0 +1,15 @@
+# Local-only reference/example folder, not part of the project
+Example/
+
+# OAuth / credential files that should never be committed
+client_secret_*.json
+*.apps.googleusercontent.com.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/

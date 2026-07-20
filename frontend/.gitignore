@@ -24,6 +24,9 @@ lerna-debug.log*
 # Testing / coverage
 coverage/
 
+# Cesium runtime assets (copied from node_modules via postinstall)
+public/cesium/
+
 # Editor / OS
 .vscode/*
 !.vscode/extensions.json

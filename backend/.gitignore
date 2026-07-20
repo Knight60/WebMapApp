@@ -25,6 +25,9 @@ dist/
 secrets/
 data/raw/
 
+# Frontend build output, published here by `vite build`
+static/
+
 # Editor / OS
 .vscode/*
 !.vscode/extensions.json

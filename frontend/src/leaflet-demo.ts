@@ -71,7 +71,9 @@ select.addEventListener('change', () => {
 })
 
 async function loadProvinces() {
-  const res = await fetch('/data/provinces.geojson')
+  // BASE_URL resolves to the deploy base ('/WebMapApp/' on GitHub Pages,
+  // '/' when served from the backend) so the asset is found in both cases.
+  const res = await fetch(`${import.meta.env.BASE_URL}data/provinces.geojson`)
   if (!res.ok) throw new Error(`Failed to load provinces: ${res.status}`)
   const geojson = (await res.json()) as GeoJSON.FeatureCollection
 

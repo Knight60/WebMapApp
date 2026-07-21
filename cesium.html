@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/WebMapApp/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CesiumJS Demo</title>
+    <style>
+      html, body { margin: 0; height: 100%; }
+      #app { height: 100%; }
+    </style>
+    <script type="module" crossorigin src="/WebMapApp/assets/cesium-pzTnFHxf.js"></script>
+    <link rel="modulepreload" crossorigin href="/WebMapApp/assets/rolldown-runtime-BHe-jwch.js">
+    <link rel="modulepreload" crossorigin href="/WebMapApp/assets/modulepreload-polyfill-Dezn_h7o.js">
+    <link rel="stylesheet" crossorigin href="/WebMapApp/assets/cesium-B9DDZdqH.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      // Resolve relative to the current document so it works on GitHub Pages
+      // (project sub-path) and when served from the backend root alike.
+      window.CESIUM_BASE_URL = new URL('cesium/', document.baseURI).href
+    </script>
+  </body>
+</html>

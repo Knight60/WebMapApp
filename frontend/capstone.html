@@ -520,15 +520,21 @@
                 .domain(data.map(d => d.name))
                 .padding(0.3);
             
-            svg.append("g")
+            const xAxisG = svg.append("g")
                 .attr("transform", `translate(0,${innerHeight})`)
-                .call(d3.axisBottom(x))
-                .selectAll("text")
-                .attr("transform", manyBars ? "translate(-4,8)rotate(-90)" : "translate(-12,5)rotate(-45)")
+                .call(d3.axisBottom(x));
+            const xLabels = xAxisG.selectAll("text")
                 .style("text-anchor", "end")
                 .style("font-size", manyBars ? "11px" : "13px")
                 .style("font-family", "Sarabun")
                 .style("fill", "#4b5563");
+            if (manyBars) {
+                // แนวตั้ง (-90°): reset x/y/dy ให้ข้อความอยู่ตรงกับ tick mark พอดี
+                xLabels.attr("x", -9).attr("y", 0).attr("dy", "0.32em")
+                       .attr("transform", "rotate(-90)");
+            } else {
+                xLabels.attr("transform", "translate(-12,5)rotate(-45)");
+            }
 
             // Y Axis
             const y = d3.scaleLinear()

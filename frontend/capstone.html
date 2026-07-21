@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายงานสรุป: การวิเคราะห์ข้อมูลบุคลากรและข้อเสนอแนะหัวข้อโครงงาน Capstone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Inter', 'Sarabun', sans-serif;
+        }
+        .report-container {
+            background-color: #ffffff;
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 3rem 4rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        @media (max-width: 640px) {
+            .report-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+        }
+        
+        /* Chart specific styles */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            margin: 2rem 0;
+            background: #f9fafb;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            padding: 1rem;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            padding: 10px 12px;
+            font-size: 14px;
+            font-family: 'Sarabun', sans-serif;
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            pointer-events: none;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.2s;
+            z-index: 50;
+        }
+        .arc path {
+            stroke: #fff;
+            stroke-width: 2px;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .arc path:hover {
+            opacity: 0.8;
+        }
+        .bar {
+             transition: opacity 0.2s, fill 0.2s;
+        }
+        .bar:hover {
+            opacity: 0.85;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <main class="report-container">
+        
+        <!-- Document Header -->
+        <header class="border-b-2 border-indigo-500 pb-6 mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 leading-tight mb-4 text-center">
+                รายงานสรุป<br>
+                ข้อมูลบุคลากรและข้อเสนอแนะหัวข้อโครงงาน<br>
+                Capstone (GI Vibe Coding)
+            </h1>
+            <div class="flex flex-wrap gap-4 text-sm text-gray-600">
+                <p><strong>วันที่รายงาน:</strong> 21 กรกฎาคม 2026</p>
+                <p><strong>แหล่งข้อมูล:</strong> รายชื่อผู้เข้าร่วมการอบรมเชิงปฎิบัติการภูมิสารสนเทศปัญญาประดิษฐ์ และการเขียนโค้ดตามเจตนารมณ์ ด้วยปัญญาประดิษฐ์ด้านภูมิสารสนเทศ (GeoAI & GI Vibe Coding)</p>
+            </div>
+        </header>
+
+        <!-- Section 1 -->
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-4 flex items-center">
+                <span class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-lg">1</span>
+                บทสรุปผู้บริหาร (Executive Summary)
+            </h2>
+            <p class="text-gray-700 mb-4 text-justify indent-8">
+                รายงานฉบับนี้จัดทำขึ้นเพื่อวิเคราะห์ข้อมูลพื้นฐานของผู้เข้าร่วมจากรายชื่อผู้เข้าร่วมการอบรมเชิงปฎิบัติการภูมิสารสนเทศปัญญาประดิษฐ์ และการเขียนโค้ดตามเจตนารมณ์ ด้วยปัญญาประดิษฐ์ด้านภูมิสารสนเทศ (GeoAI & GI Vibe Coding) จำนวน 64 รายการ (แบ่งเป็น <strong>ออนไซต์ 46 รายการ</strong> และ <strong>ออนไลน์ 18 รายการ</strong>) โดยมีวัตถุประสงค์เพื่อทำความเข้าใจโครงสร้างองค์กร บทบาทหน้าที่ และสายงานของบุคลากร ผลจากการวิเคราะห์นำไปสู่การกำหนดข้อเสนอแนะหัวข้อโครงงาน (Capstone Project) จำนวน 10 รายการสำหรับการพัฒนา Web Application ภายใต้แนวทาง GI Vibe Coding ที่มุ่งเน้นการแก้ปัญหาเชิงพื้นที่ (Spatial Problems) ด้วยเทคโนโลยีภูมิสารสนเทศได้อย่างตรงจุดและสอดคล้องกับพันธกิจของหน่วยงาน
+            </p>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-6 flex items-center">
+                <span class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-lg">2</span>
+                การวิเคราะห์ข้อมูลเชิงลึกด้านองค์กรและสายงาน
+            </h2>
+            <p class="text-gray-700 mb-6">จากการประมวลผลข้อมูล สามารถจำแนกคุณลักษณะสำคัญของผู้เข้าร่วมได้ดังนี้:</p>
+
+            <!-- 2.1 Department -->
+            <div class="mb-10">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3 border-l-4 border-indigo-500 pl-3">2.1 โครงสร้างหน่วยงานต้นสังกัด (Organization/Department)</h3>
+                <p class="text-gray-700 mb-4">บุคลากรส่วนใหญ่สังกัดหน่วยงานภาครัฐที่มีภารกิจหลักด้านการบริหารจัดการทรัพยากรธรรมชาติ ทรัพยากรน้ำ และภัยพิบัติ ได้แก่:</p>
+                <ul class="list-disc list-inside text-gray-700 mb-4 space-y-2 ml-4">
+                    <li><strong>สำนักงานพัฒนาเทคโนโลยีอวกาศและภูมิสารสนเทศ (องค์การมหาชน) - GISTDA:</strong> เป็นกลุ่มผู้เข้าร่วมหลัก (พบภายใต้ชื่อย่อ เช่น สปภ., สนภ., สบร., สผอ.)</li>
+                    <li><strong>สำนักงานทรัพยากรน้ำแห่งชาติ (สทนช.):</strong> 9 รายการ (ออนไซต์ 9)</li>
+                    <li><strong>กรมชลประทาน (ชป.):</strong> 8 รายการ (ออนไซต์ 4 / ออนไลน์ 4)</li>
+                    <li><strong>หน่วยงานอื่นๆ:</strong> สถาบันอุตสาหกรรมเกษตร สภาอุตสาหกรรมแห่งประเทศไทย เป็นต้น</li>
+                </ul>
+                <!-- Chart Container 2.1 -->
+                <div id="dept-chart" class="chart-container shadow-sm"></div>
+                <p class="text-center text-sm text-gray-500 italic mt-[-1rem]">แผนภูมิแสดงสัดส่วนของหน่วยงานต้นสังกัดของผู้เข้าร่วม (Department)</p>
+            </div>
+
+            <!-- 2.2 Position -->
+            <div class="mb-10">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3 border-l-4 border-indigo-500 pl-3">2.2 โครงสร้างตำแหน่งทางวิชาชีพ (Job Position)</h3>
+                <p class="text-gray-700 mb-4">กลุ่มเป้าหมายเป็นผู้เชี่ยวชาญด้านเทคนิค วิศวกรรม และการจัดการข้อมูลเชิงพื้นที่ ตำแหน่งที่พบมากที่สุด ได้แก่:</p>
+                <ol class="list-decimal list-inside text-gray-700 mb-4 space-y-2 ml-4">
+                    <li>นักภูมิสารสนเทศ (รวมทุกระดับ): 31 รายการ (ออนไซต์ 19 / ออนไลน์ 12) — เกือบ 50% ของทั้งหมด</li>
+                    <li>วิศวกรชลประทาน (รวมทุกระดับ): 12 รายการ (ออนไซต์ 8 / ออนไลน์ 4)</li>
+                    <li>นักพัฒนานวัตกรรม (รวมทุกระดับ): 5 รายการ (ออนไซต์ 4 / ออนไลน์ 1)</li>
+                    <li>นักวิชาการคอมพิวเตอร์ / วิศวกร และผู้เชี่ยวชาญด้านอื่นๆ</li>
+                </ol>
+                <!-- Chart Container 2.2 -->
+                <div id="pos-chart" class="chart-container shadow-sm h-[500px]"></div>
+                 <p class="text-center text-sm text-gray-500 italic mt-[-1rem]">แผนภูมิแสดงจำนวนผู้เข้าร่วมจำแนกตามตำแหน่งทางวิชาชีพ (Job Position)</p>
+            </div>
+
+            <!-- 2.3 Division -->
+            <div class="mb-10">
+                <h3 class="text-xl font-semibold text-gray-800 mb-3 border-l-4 border-indigo-500 pl-3">2.3 โครงสร้างฝ่าย/สายงาน (Division)</h3>
+                <p class="text-gray-700 mb-4">การกระจายตัวของบุคลากรตามภารกิจหลักระดับฝ่าย ชี้ให้เห็นถึงประเด็นปัญหาเชิงพื้นที่ (Spatial Domains) ที่องค์กรให้ความสำคัญ 4 ลำดับแรก:</p>
+                <ul class="list-disc list-inside text-gray-700 mb-4 space-y-2 ml-4">
+                    <li><strong>ฝ่ายจัดการภัยธรรมชาติ:</strong> 15 รายการ (ออนไซต์ 1 / ออนไลน์ 14) — กลุ่มใหญ่ที่สุด</li>
+                    <li><strong>ฝ่ายจัดการการเกษตร:</strong> 6 รายการ (ออนไซต์ 6)</li>
+                    <li><strong>ฝ่ายทรัพยากรธรรมชาติและสิ่งแวดล้อม:</strong> 4 รายการ (ออนไซต์ 4)</li>
+                    <li><strong>ฝ่ายความมั่นคงทางสังคม:</strong> 4 รายการ (ออนไซต์ 4)</li>
+                </ul>
+                <!-- Chart Container 2.3 -->
+                <div id="div-chart" class="chart-container shadow-sm"></div>
+                 <p class="text-center text-sm text-gray-500 italic mt-[-1rem]">แผนภูมิแสดงการกระจายตัวของบุคลากรตามภารกิจหลักระดับฝ่าย (Division)</p>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-2xl font-bold text-indigo-700 mb-6 flex items-center">
+                <span class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-lg">3</span>
+                ข้อเสนอแนะหัวข้อโครงงาน Capstone Project (10 Web App Ideas)
+            </h2>
+            <p class="text-gray-700 mb-6 text-justify indent-8">
+                จากบริบททางวิชาชีพและภารกิจองค์กรข้างต้น ขอเสนอหัวข้อโครงงาน Web Application แบบ GI Vibe Coding ซึ่งบูรณาการระหว่าง Web-GIS, Spatial Data Science และ Machine Learning จำนวน 10 หัวข้อ ดังนี้:
+            </p>
+
+            <div class="space-y-6">
+                <!-- Group 1 -->
+                <div class="bg-blue-50 rounded-lg p-6 border border-blue-100">
+                    <h3 class="text-lg font-bold text-blue-800 mb-2">กลุ่มที่ 1: การจัดการภัยพิบัติและอุทกวิทยา (Disaster & Hydrology Management)</h3>
+                    <p class="text-sm text-blue-600 mb-4 italic">ตอบโจทย์: ฝ่ายจัดการภัยธรรมชาติ, วิศวกรชลประทาน (ชป., สทนช.)</p>
+                    <ul class="space-y-4 text-gray-800">
+                        <li><strong>1. Web-based Flood Dynamics and Risk Assessment System</strong><br>
+                        <span class="text-gray-600 text-sm">ระบบประเมินพลวัตอุทกภัย โดยบูรณาการแบบจำลองระดับน้ำและภาพถ่ายดาวเทียม เพื่อวิเคราะห์ทิศทางการไหลของน้ำและประเมินผลกระทบเชิงพื้นที่ทางเศรษฐกิจและสังคม</span></li>
+                        
+                        <li><strong>2. Dynamic Irrigation Water Allocation Spatial Decision Support System (SDSS)</strong><br>
+                        <span class="text-gray-600 text-sm">ระบบสนับสนุนการตัดสินใจเชิงพื้นที่สำหรับการจัดสรรน้ำชลประทาน โดยสร้างแบบจำลองสมดุลน้ำเชิงพื้นที่ เปรียบเทียบความต้องการน้ำของพืชกับปริมาณน้ำต้นทุน</span></li>
+                        
+                        <li><strong>3. Real-time Reservoir Capacity and Sedimentation Monitoring System</strong><br>
+                        <span class="text-gray-600 text-sm">ระบบเฝ้าระวังปริมาตรกักเก็บอ่างเก็บน้ำแบบใกล้เคียงเวลาจริง โดยสกัดขอบเขตผิวน้ำจากดาวเทียมร่วมกับ DEM เพื่อประเมินความจุที่ลดลงจากการตกตะกอน</span></li>
+                        
+                        <li><strong>4. AI-driven Disaster Rapid Response and Route Allocation Platform</strong><br>
+                        <span class="text-gray-600 text-sm">แพลตฟอร์มตอบสนองภัยพิบัติอัตโนมัติ บูรณาการข้อมูลโครงข่ายถนนกับพื้นที่วิกฤต เพื่อคำนวณเส้นทางอพยพและส่งกำลังบำรุงที่ใช้ต้นทุนต่ำที่สุด</span></li>
+                    </ul>
+                </div>
+
+                <!-- Group 2 -->
+                <div class="bg-green-50 rounded-lg p-6 border border-green-100">
+                    <h3 class="text-lg font-bold text-green-800 mb-2">กลุ่มที่ 2: การจัดการการเกษตรและทรัพยากร (Agriculture & Natural Resources)</h3>
+                    <p class="text-sm text-green-600 mb-4 italic">ตอบโจทย์: ฝ่ายจัดการการเกษตร, ฝ่ายทรัพยากรธรรมชาติฯ, นักภูมิสารสนเทศ</p>
+                    <ul class="space-y-4 text-gray-800">
+                        <li><strong>5. Spatial Agricultural Drought Monitoring and Yield Prediction Platform</strong><br>
+                        <span class="text-gray-600 text-sm">แพลตฟอร์มเฝ้าระวังภัยแล้งและพยากรณ์ผลผลิตทางการเกษตร โดยวิเคราะห์ดัชนีพรรณพืช (Vegetation Indices) แบบอนุกรมเวลาร่วมกับข้อมูลภูมิอากาศ</span></li>
+                        
+                        <li><strong>6. Spatial Crop Suitability and Precision Agriculture Analyzer</strong><br>
+                        <span class="text-gray-600 text-sm">ระบบวิเคราะห์ความเหมาะสมเชิงพื้นที่สำหรับเกษตรกรรมแม่นยำ วิเคราะห์ข้อมูลดิน ความลาดชัน และอุตุนิยมวิทยาด้วยวิธีประเมินแบบพหุเกณฑ์ (MCE)</span></li>
+                        
+                        <li><strong>7. Automated Land Use/Land Cover Change Detection Platform</strong><br>
+                        <span class="text-gray-600 text-sm">แพลตฟอร์มตรวจวัดการเปลี่ยนแปลงการใช้ประโยชน์ที่ดินด้วยปัญญาประดิษฐ์ ประยุกต์ใช้ Deep Learning ในการจำแนกประเภทที่ดินและตรวจหาการเปลี่ยนแปลงแบบอัตโนมัติ</span></li>
+                    </ul>
+                </div>
+
+                <!-- Group 3 -->
+                <div class="bg-orange-50 rounded-lg p-6 border border-orange-100">
+                    <h3 class="text-lg font-bold text-orange-800 mb-2">กลุ่มที่ 3: สิ่งแวดล้อมและความมั่นคงทางสังคม (Environment & Social Security)</h3>
+                    <p class="text-sm text-orange-600 mb-4 italic">ตอบโจทย์: ฝ่ายทรัพยากรธรรมชาติฯ, ฝ่ายความมั่นคงทางสังคม</p>
+                    <ul class="space-y-4 text-gray-800">
+                        <li><strong>8. Near Real-time Hotspot and PM2.5 Trajectory Tracker</strong><br>
+                        <span class="text-gray-600 text-sm">ระบบติดตามจุดความร้อนและจำลองวิถีฝุ่นละอองขนาดเล็ก ดึงข้อมูล Active Fires จากดาวเทียม ผนวกแบบจำลองทิศทางลมเพื่อวิเคราะห์การเคลื่อนตัวของมลพิษ</span></li>
+                        
+                        <li><strong>9. Urban Heat Island and Social Vulnerability Mapping Application</strong><br>
+                        <span class="text-gray-600 text-sm">แอปพลิเคชันวิเคราะห์เกาะความร้อนเมือง ประมวลผลอุณหภูมิพื้นผิว (LST) ซ้อนทับข้อมูลประชากร เพื่อระบุพื้นที่วิกฤตทางความร้อนที่มีความเปราะบางทางสังคมสูง</span></li>
+                        
+                        <li><strong>10. Coastal Erosion and Sea-level Rise Impact Simulator</strong><br>
+                        <span class="text-gray-600 text-sm">แพลตฟอร์มจำลองผลกระทบการกัดเซาะชายฝั่ง วิเคราะห์แนวชายฝั่งเพื่อคำนวณอัตราการถดถอย และจำลองพื้นที่เสี่ยงน้ำท่วมจากการเพิ่มขึ้นของระดับน้ำทะเล</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-bold text-indigo-700 mb-4 flex items-center">
+                <span class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-lg">4</span>
+                บทสรุปและข้อเสนอแนะเชิงนโยบาย (Conclusion & Recommendations)
+            </h2>
+            <p class="text-gray-700 mb-4 text-justify indent-8">
+                การนำเสนอหัวข้อโครงงานทั้ง 10 รายการนี้ ได้รับการออกแบบให้สอดรับกับทักษะหลัก (Core Competencies) ของบุคลากรที่มีพื้นฐานด้านภูมิสารสนเทศศาสตร์และวิศวกรรมชลประทานเป็นทุนเดิม การพัฒนา Web App ด้วยแนวทาง <strong>GI Vibe Coding</strong> (เน้นความรวดเร็ว สวยงาม และใช้งานได้จริงผ่านเครื่องมือสมัยใหม่) จะช่วยยกระดับจากการใช้ซอฟต์แวร์ Desktop GIS แบบดั้งเดิม ไปสู่การเป็นผู้พัฒนา (Developer) หรือผู้ร่วมสร้างสรรค์นวัตกรรม (Co-creator) ที่สามารถนำเสนอข้อมูลเชิงพื้นที่ (Spatial Data Visualization) และการวิเคราะห์ขั้นสูงให้เข้าถึงได้ง่ายผ่าน Web Browser ซึ่งจะก่อให้เกิดประโยชน์สูงสุดต่อองค์กรและสังคมในวงกว้าง
+            </p>
+        </section>
+
+    </main>
+
+    <!-- Tooltip Element for D3 Charts -->
+    <div id="tooltip" class="tooltip"></div>
+
+    <script>
+        // Data derived from รายชื่อผู้เข้าร่วมการอบรมเชิงปฎิบัติการภูมิสารสนเทศปัญญาประดิษฐ์ฯ analysis
+        // แยกจำนวนเป็น ออนไซต์ (onsite) และ ออนไลน์ (online) — รวมทั้งหมด 64 คน (ออนไซต์ 46 / ออนไลน์ 18)
+        const deptData = [
+            {"name": "สปภ.",  "onsite": 15, "online": 14},
+            {"name": "สทนช.", "onsite": 9,  "online": 0},
+            {"name": "ชป.",   "onsite": 4,  "online": 4},
+            {"name": "สนภ.",  "onsite": 8,  "online": 0},
+            {"name": "สบร.",  "onsite": 3,  "online": 0},
+            {"name": "สสพ.",  "onsite": 3,  "online": 0},
+            {"name": "สผอ.",  "onsite": 3,  "online": 0},
+            {"name": "อื่นๆ", "onsite": 1,  "online": 0}
+        ];
+
+        const posData = [
+            {"name": "นักภูมิสารสนเทศ", "onsite": 10, "online": 11},
+            {"name": "นักภูมิสารสนเทศชำนาญการพิเศษ", "onsite": 6, "online": 0},
+            {"name": "วิศวกรชลประทานชำนาญการ", "onsite": 4, "online": 2},
+            {"name": "นักพัฒนานวัตกรรม", "onsite": 3, "online": 1},
+            {"name": "วิศวกรชลประทาน", "onsite": 1, "online": 2},
+            {"name": "นักภูมิสารสนเทศชำนาญการ", "onsite": 2, "online": 1},
+            {"name": "วิศวกรชลประทานปฏิบัติการ", "onsite": 3, "online": 0},
+            {"name": "นักวิชาการคอมพิวเตอร์ชำนาญการ", "onsite": 2, "online": 0},
+            {"name": "นักวิชาการฝึกอบรม", "onsite": 2, "online": 0},
+            {"name": "เจ้าหน้าที่ยุทธศาสตร์", "onsite": 2, "online": 0},
+            {"name": "อื่นๆ", "onsite": 11, "online": 1} // Aggregated remaining single roles for cleaner display
+        ];
+
+        const divData = [
+            {"name": "ฝ่ายจัดการภัยธรรมชาติ", "onsite": 1, "online": 14},
+            {"name": "ฝ่ายจัดการการเกษตร", "onsite": 6, "online": 0},
+            {"name": "ฝ่ายทรัพยากรธรรมชาติฯ", "onsite": 4, "online": 0},
+            {"name": "ฝ่ายความมั่นคงทางสังคม", "onsite": 4, "online": 0},
+            {"name": "ฝ่ายพัฒนาและถ่ายทอดฯ", "onsite": 3, "online": 0},
+            {"name": "ฝผอ.", "onsite": 3, "online": 0},
+            {"name": "อื่นๆ", "onsite": 4, "online": 0} // Aggregated remaining
+        ];
+
+        // Aesthetic Color palettes
+        const colorPalette1 = ['#4f46e5', '#3b82f6', '#0ea5e9', '#06b6d4', '#14b8a6', '#10b981', '#84cc16', '#9ca3af'];
+        const colorPalette2 = ['#8b5cf6', '#a855f7', '#d946ef', '#ec4899', '#f43f5e', '#f97316', '#9ca3af'];
+
+        const tooltip = d3.select("#tooltip");
+
+        function showTooltip(event, content) {
+            tooltip.transition().duration(200).style("opacity", 1);
+            tooltip.html(content)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        }
+
+        function hideTooltip() {
+            tooltip.transition().duration(500).style("opacity", 0);
+        }
+
+        // สร้างเฉดสีอ่อนสำหรับ series "ออนไลน์" (ผสมสีหลักกับสีขาว)
+        function lighten(c) {
+            return d3.interpolateRgb(c, "#ffffff")(0.55);
+        }
+
+        function drawPieChart(data, containerId, colors, swapRings) {
+            const container = d3.select(containerId);
+            container.selectAll("*").remove();
+
+            // จำนวนรวมของแต่ละส่วน = ออนไซต์ + ออนไลน์
+            data.forEach(d => d.value = d.onsite + d.online);
+
+            const width = container.node().getBoundingClientRect().width;
+            const height = container.node().getBoundingClientRect().height;
+            const margin = 30;
+
+            // Optimal radius
+            const radius = Math.min(width, height) / 2 - margin - 50;
+
+            const svg = container.append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", `translate(${width / 2},${height / 2})`);
+
+            const color = d3.scaleOrdinal().domain(data.map(d => d.name)).range(colors);
+
+            const pie = d3.pie()
+                .value(d => d.value)
+                .sort(null);
+
+            const r0 = radius * 0.45; // ขอบในของโดนัท (donut hole)
+            const r1 = radius;        // ขอบนอกสุด
+
+            // กำหนด series ของวงใน/วงนอก (ปกติ วงใน=ออนไลน์, swapRings=true → วงใน=ออนไซต์)
+            const innerKey = swapRings ? 'onsite' : 'online';
+            const outerKey = swapRings ? 'online' : 'onsite';
+            // สีตาม series: ออนไซต์ = สีหลัก, ออนไลน์ = เฉดสีอ่อน
+            const fillFor = (key, name) => key === 'online' ? lighten(color(name)) : color(name);
+
+            // ตำแหน่งรัศมีที่แบ่งวงใน/วงนอก ภายใน portion เดียวกัน
+            const rSplit = d => r0 + (r1 - r0) * (d.data[innerKey] / (d.data.value || 1));
+
+            const arcInner = d3.arc()
+                .innerRadius(r0)
+                .outerRadius(d => rSplit(d));
+            const arcOuter = d3.arc()
+                .innerRadius(d => rSplit(d))
+                .outerRadius(r1);
+
+            // arc เต็ม portion (ใช้อ้างอิงตำแหน่ง label)
+            const arc = d3.arc()
+                .innerRadius(radius * 0.45)
+                .outerRadius(radius);
+
+            // For labels outside
+            const outerArc = d3.arc()
+                .innerRadius(radius * 1.15)
+                .outerRadius(radius * 1.15);
+
+            const data_ready = pie(data);
+            const total = d3.sum(data, d => d.value);
+
+            function pieTooltip(event, d) {
+                const percent = ((d.data.value / total) * 100).toFixed(1);
+                showTooltip(event, `<strong>${d.data.name}</strong><br/>รวม ${d.data.value} คน (${percent}%)<br/>ออนไซต์ ${d.data.onsite} · ออนไลน์ ${d.data.online}`);
+            }
+
+            // วงใน
+            svg.selectAll('allInner')
+                .data(data_ready)
+                .enter()
+                .append('path')
+                .attr('d', arcInner)
+                .attr('fill', d => fillFor(innerKey, d.data.name))
+                .attr('class', 'arc')
+                .on("mouseover", function(event, d) {
+                    pieTooltip(event, d);
+                    d3.select(this).style("opacity", 0.8);
+                })
+                .on("mouseout", function() {
+                    hideTooltip();
+                    d3.select(this).style("opacity", 1);
+                });
+
+            // วงนอก
+            svg.selectAll('allOuter')
+                .data(data_ready)
+                .enter()
+                .append('path')
+                .attr('d', arcOuter)
+                .attr('fill', d => fillFor(outerKey, d.data.name))
+                .attr('class', 'arc')
+                .on("mouseover", function(event, d) {
+                    pieTooltip(event, d);
+                    d3.select(this).style("opacity", 0.8);
+                })
+                .on("mouseout", function() {
+                    hideTooltip();
+                    d3.select(this).style("opacity", 1);
+                });
+
+            // คำอธิบายวงใน/วงนอก (legend)
+            const legend = svg.append("g")
+                .attr("transform", `translate(${-width / 2 + 12},${-height / 2 + 14})`)
+                .style("font-family", "Sarabun")
+                .style("font-size", "12px");
+            const legItems = [
+                {label: outerKey === 'online' ? "วงนอก = ออนไลน์" : "วงนอก = ออนไซต์", fill: outerKey === 'online' ? lighten("#6b7280") : "#6b7280"},
+                {label: innerKey === 'online' ? "วงใน = ออนไลน์" : "วงใน = ออนไซต์", fill: innerKey === 'online' ? lighten("#6b7280") : "#6b7280"}
+            ];
+            legItems.forEach((it, i) => {
+                const g = legend.append("g").attr("transform", `translate(0,${i * 20})`);
+                g.append("rect").attr("width", 14).attr("height", 14).attr("rx", 3).attr("fill", it.fill);
+                g.append("text").attr("x", 20).attr("y", 11).style("fill", "#4b5563").text(it.label);
+            });
+
+            // เตรียมตำแหน่ง label แล้วกระจายแนวตั้งไม่ให้ซ้อนทับกัน (label de-overlap)
+            const labelData = data_ready.filter(d => (d.data.value / total) * 100 >= 4);
+            labelData.forEach(d => {
+                const mid = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                d._side = mid < Math.PI ? 1 : -1;      // ขวา = 1, ซ้าย = -1
+                d._y = outerArc.centroid(d)[1];         // ตำแหน่ง y เริ่มต้น
+                d._x = radius * 1.25 * d._side;         // ตำแหน่ง x ของข้อความ
+            });
+            const minGap = 34;                          // ระยะห่างขั้นต่ำระหว่าง label (2 บรรทัด)
+            const maxY = height / 2 - 24;
+            [-1, 1].forEach(side => {
+                const arr = labelData.filter(d => d._side === side).sort((a, b) => a._y - b._y);
+                // ดันลงเมื่อชนกัน
+                for (let i = 1; i < arr.length; i++) {
+                    if (arr[i]._y < arr[i - 1]._y + minGap) arr[i]._y = arr[i - 1]._y + minGap;
+                }
+                // ถ้าตัวล่างสุดเลยขอบ ให้ดันกลับขึ้นทั้งกอง
+                if (arr.length && arr[arr.length - 1]._y > maxY) {
+                    arr[arr.length - 1]._y = maxY;
+                    for (let i = arr.length - 2; i >= 0; i--) {
+                        if (arr[i]._y > arr[i + 1]._y - minGap) arr[i]._y = arr[i + 1]._y - minGap;
+                    }
+                }
+            });
+
+            // Draw polylines (จุดปลายตาม label ที่กระจายแล้ว)
+            svg.selectAll('allPolylines')
+                .data(labelData)
+                .enter()
+                .append('polyline')
+                .attr("stroke", "#9ca3af")
+                .style("fill", "none")
+                .attr("stroke-width", 1)
+                .attr('points', function(d) {
+                    const posA = arc.centroid(d);
+                    const posB = outerArc.centroid(d);
+                    const posC = [radius * 1.2 * d._side, d._y];
+                    return [posA, posB, posC];
+                })
+                .style("opacity", 0.5);
+
+            // Add text labels
+            svg.selectAll('allLabels')
+                .data(labelData)
+                .enter()
+                .append('text')
+                .html(function(d) {
+                     const percent = (d.data.value / total) * 100;
+                     return `<tspan x="0" dy="0" font-weight="600">${d.data.name}</tspan><tspan x="0" dy="1.2em" font-size="11px" fill="#6b7280">${d.data.value} คน (${percent.toFixed(1)}%)</tspan>`;
+                })
+                .attr('transform', d => `translate(${d._x},${d._y})`)
+                .style('text-anchor', d => d._side === 1 ? 'start' : 'end')
+                .style('font-size', '13px')
+                .style('fill', '#374151');
+        }
+
+        function drawBarChart(data, containerId, color) {
+            const container = d3.select(containerId);
+            container.selectAll("*").remove();
+
+            // จำนวนรวมของแต่ละแท่ง = ออนไซต์ + ออนไลน์
+            data.forEach(d => d.value = d.onsite + d.online);
+
+            const width = container.node().getBoundingClientRect().width;
+            const height = container.node().getBoundingClientRect().height;
+            // Larger bottom margin for long text in Sarabun
+            const margin = {top: 40, right: 20, bottom: 160, left: 50};
+            
+            const innerWidth = width - margin.left - margin.right;
+            const innerHeight = height - margin.top - margin.bottom;
+
+            const svg = container.append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            // X Axis
+            const x = d3.scaleBand()
+                .range([ 0, innerWidth ])
+                .domain(data.map(d => d.name))
+                .padding(0.3);
+            
+            svg.append("g")
+                .attr("transform", `translate(0,${innerHeight})`)
+                .call(d3.axisBottom(x))
+                .selectAll("text")
+                .attr("transform", "translate(-12,5)rotate(-45)")
+                .style("text-anchor", "end")
+                .style("font-size", "13px")
+                .style("font-family", "Sarabun")
+                .style("fill", "#4b5563");
+
+            // Y Axis
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.value) + 3]) // Padding top
+                .range([ innerHeight, 0]);
+                
+            svg.append("g")
+                .call(d3.axisLeft(y).ticks(5))
+                .selectAll("text")
+                .style("font-size", "12px")
+                .style("fill", "#4b5563");
+
+            // Grid lines
+            const yAxisGrid = d3.axisLeft(y).tickSize(-innerWidth).tickFormat('').ticks(5);
+            svg.append('g')
+                .attr('class', 'y axis-grid')
+                .call(yAxisGrid)
+                .selectAll('line')
+                .attr('stroke', '#e5e7eb')
+                .attr('stroke-dasharray', '4,4');
+            svg.select('.domain').remove(); 
+
+            const colOnsite = color;           // ออนไซต์ = สีหลัก (ด้านล่าง)
+            const colOnline = lighten(color);  // ออนไลน์ = เฉดสีอ่อน (ด้านบน)
+
+            // แท่งด้านล่าง = ออนไซต์
+            svg.selectAll(".bar-onsite")
+                .data(data)
+                .enter()
+                .append("rect")
+                .attr("class", "bar bar-onsite")
+                .attr("x", d => x(d.name))
+                .attr("y", d => y(d.onsite))
+                .attr("width", x.bandwidth())
+                .attr("height", d => innerHeight - y(d.onsite))
+                .attr("fill", colOnsite)
+                .attr("rx", d => d.online > 0 ? 0 : 6) // มุมโค้งเฉพาะแท่งที่อยู่บนสุด
+                .on("mouseover", function(event, d) {
+                     showTooltip(event, `<strong>${d.name}</strong><br/>ออนไซต์: ${d.onsite} คน<br/>(รวม ${d.value} คน)`);
+                })
+                .on("mouseout", function() {
+                    hideTooltip();
+                });
+
+            // แท่งด้านบน = ออนไลน์ (วางซ้อนบนออนไซต์)
+            svg.selectAll(".bar-online")
+                .data(data)
+                .enter()
+                .append("rect")
+                .attr("class", "bar bar-online")
+                .attr("x", d => x(d.name))
+                .attr("y", d => y(d.value))
+                .attr("width", x.bandwidth())
+                .attr("height", d => y(d.onsite) - y(d.value))
+                .attr("fill", colOnline)
+                .attr("rx", 6) // Rounded top corners
+                .on("mouseover", function(event, d) {
+                     showTooltip(event, `<strong>${d.name}</strong><br/>ออนไลน์: ${d.online} คน<br/>(รวม ${d.value} คน)`);
+                })
+                .on("mouseout", function() {
+                    hideTooltip();
+                });
+
+            // คำอธิบายสี (legend)
+            const barLegend = svg.append("g")
+                .attr("transform", `translate(0,-28)`)
+                .style("font-family", "Sarabun")
+                .style("font-size", "12px");
+            const barItems = [
+                {label: "ออนไซต์", fill: colOnsite},
+                {label: "ออนไลน์", fill: colOnline}
+            ];
+            let bx = 0;
+            barItems.forEach(it => {
+                const g = barLegend.append("g").attr("transform", `translate(${bx},0)`);
+                g.append("rect").attr("width", 14).attr("height", 14).attr("rx", 3).attr("fill", it.fill);
+                g.append("text").attr("x", 20).attr("y", 11).style("fill", "#4b5563").text(it.label);
+                bx += 90;
+            });
+
+            // Labels on bars
+             svg.selectAll(".label")
+                .data(data)
+                .enter()
+                .append("text")
+                .attr("class", "label")
+                .text(d => d.value)
+                .attr("x", d => x(d.name) + x.bandwidth() / 2)
+                .attr("y", d => y(d.value) - 10)
+                .attr("text-anchor", "middle")
+                .style("font-size", "14px")
+                .style("fill", "#4f46e5")
+                .style("font-weight", "600");
+        }
+
+        function drawAllCharts() {
+            // Wait a tiny bit for layout to settle if needed
+            setTimeout(() => {
+                drawPieChart(deptData, "#dept-chart", colorPalette1);
+                drawBarChart(posData, "#pos-chart", "#818cf8"); // Indigo-400
+                drawPieChart(divData, "#div-chart", colorPalette2, true); // 2.3: วงใน=ออนไซต์, วงนอก=ออนไลน์
+            }, 100);
+        }
+
+        window.addEventListener('load', drawAllCharts);
+
+        // Debounce resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(drawAllCharts, 300);
+        });
+
+    </script>
+</body>
+</html>

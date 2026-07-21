@@ -7,9 +7,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <p>Pick a library to see a basic example map centered on Bangkok.</p>
   </div>
   <ul class="demo-links">
-    <li><a href="/leaflet.html">Leaflet</a></li>
-    <li><a href="/maplibre.html">MapLibre GL JS</a></li>
-    <li><a href="/cesium.html">CesiumJS</a></li>
+    <li><a href="${import.meta.env.BASE_URL}leaflet.html">Leaflet</a></li>
+    <li><a href="${import.meta.env.BASE_URL}maplibre.html">MapLibre GL JS</a></li>
+    <li><a href="${import.meta.env.BASE_URL}cesium.html">CesiumJS</a></li>
+    <li><a href="${import.meta.env.BASE_URL}capstone.html">รายงานสรุป Capstone</a></li>
   </ul>
 </section>
 `

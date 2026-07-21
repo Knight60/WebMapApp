@@ -32,6 +32,7 @@ export default defineConfig({
         leaflet: resolve(__dirname, 'leaflet.html'),
         maplibre: resolve(__dirname, 'maplibre.html'),
         cesium: resolve(__dirname, 'cesium.html'),
+        capstone: resolve(__dirname, 'capstone.html'),
       },
     },
   },

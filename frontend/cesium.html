@@ -13,7 +13,9 @@
   <body>
     <div id="app"></div>
     <script>
-      window.CESIUM_BASE_URL = '/cesium/'
+      // Resolve relative to the current document so it works on GitHub Pages
+      // (project sub-path) and when served from the backend root alike.
+      window.CESIUM_BASE_URL = new URL('cesium/', document.baseURI).href
     </script>
     <script type="module" src="/src/cesium-demo.ts"></script>
   </body>

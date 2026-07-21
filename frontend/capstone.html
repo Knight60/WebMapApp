@@ -150,12 +150,16 @@
             <!-- 2.3 Division -->
             <div class="mb-10">
                 <h3 class="text-xl font-semibold text-gray-800 mb-3 border-l-4 border-indigo-500 pl-3">2.3 โครงสร้างฝ่าย/สายงาน (Division)</h3>
-                <p class="text-gray-700 mb-4">การกระจายตัวของบุคลากรตามภารกิจหลักระดับฝ่าย ชี้ให้เห็นถึงประเด็นปัญหาเชิงพื้นที่ (Spatial Domains) ที่องค์กรให้ความสำคัญ 4 ลำดับแรก:</p>
+                <p class="text-gray-700 mb-4">การกระจายตัวของบุคลากรตามภารกิจหลักระดับฝ่าย (Spatial Domains) เมื่อรวมทั้งหมด 64 รายการ (ออนไซต์ 46 / ออนไลน์ 18) แบ่งได้ดังนี้:</p>
                 <ul class="list-disc list-inside text-gray-700 mb-4 space-y-2 ml-4">
-                    <li><strong>ฝ่ายจัดการภัยธรรมชาติ:</strong> 15 รายการ (ออนไซต์ 1 / ออนไลน์ 14) — กลุ่มใหญ่ที่สุด</li>
+                    <li><strong>ฝ่ายจัดการภัยธรรมชาติ:</strong> 15 รายการ (ออนไซต์ 1 / ออนไลน์ 14) — กลุ่มฝ่ายที่ใหญ่ที่สุด</li>
                     <li><strong>ฝ่ายจัดการการเกษตร:</strong> 6 รายการ (ออนไซต์ 6)</li>
-                    <li><strong>ฝ่ายทรัพยากรธรรมชาติและสิ่งแวดล้อม:</strong> 4 รายการ (ออนไซต์ 4)</li>
                     <li><strong>ฝ่ายความมั่นคงทางสังคม:</strong> 4 รายการ (ออนไซต์ 4)</li>
+                    <li><strong>ฝ่ายทรัพยากรธรรมชาติและสิ่งแวดล้อม:</strong> 4 รายการ (ออนไซต์ 4)</li>
+                    <li><strong>ฝผอ.:</strong> 3 รายการ (ออนไซต์ 3)</li>
+                    <li><strong>ฝ่ายพัฒนาและถ่ายทอดองค์ความรู้:</strong> 3 รายการ (ออนไซต์ 3)</li>
+                    <li><strong>กลุ่มพัฒนาองค์ความรู้และเผยแพร่, ฝยธ., ฝสภ., ฝธบ.:</strong> ฝ่ายละ 1 รายการ (ออนไซต์ ฝ่ายละ 1 รวม 4 รายการ)</li>
+                    <li><strong>หน่วยงานภายนอก / ไม่ระบุฝ่าย:</strong> 25 รายการ (ออนไซต์ 21 / ออนไลน์ 4) — ได้แก่ ชป. 8, สนภ. 8, สทนช. 8, สอท. 1 ที่ไม่ได้ระบุฝ่ายในระบบ</li>
                 </ul>
                 <!-- Chart Container 2.3 -->
                 <div id="div-chart" class="chart-container shadow-sm"></div>
@@ -269,19 +273,24 @@
             {"name": "อื่นๆ", "onsite": 11, "online": 1} // Aggregated remaining single roles for cleaner display
         ];
 
+        // แยกทุกฝ่ายจริง (10 ฝ่าย) + กลุ่มภายนอก/ไม่ระบุฝ่าย → รวม 64 คน (ออนไซต์ 46 / ออนไลน์ 18)
         const divData = [
             {"name": "ฝ่ายจัดการภัยธรรมชาติ", "onsite": 1, "online": 14},
             {"name": "ฝ่ายจัดการการเกษตร", "onsite": 6, "online": 0},
-            {"name": "ฝ่ายทรัพยากรธรรมชาติฯ", "onsite": 4, "online": 0},
             {"name": "ฝ่ายความมั่นคงทางสังคม", "onsite": 4, "online": 0},
-            {"name": "ฝ่ายพัฒนาและถ่ายทอดฯ", "onsite": 3, "online": 0},
+            {"name": "ฝ่ายทรัพยากรธรรมชาติฯ", "onsite": 4, "online": 0},
             {"name": "ฝผอ.", "onsite": 3, "online": 0},
-            {"name": "อื่นๆ", "onsite": 4, "online": 0} // Aggregated remaining
+            {"name": "ฝ่ายพัฒนาและถ่ายทอดฯ", "onsite": 3, "online": 0},
+            {"name": "กลุ่มพัฒนาองค์ความรู้ฯ", "onsite": 1, "online": 0},
+            {"name": "ฝยธ.", "onsite": 1, "online": 0},
+            {"name": "ฝสภ.", "onsite": 1, "online": 0},
+            {"name": "ฝธบ.", "onsite": 1, "online": 0},
+            {"name": "ภายนอก/ไม่ระบุ", "onsite": 21, "online": 4}
         ];
 
         // Aesthetic Color palettes
         const colorPalette1 = ['#4f46e5', '#3b82f6', '#0ea5e9', '#06b6d4', '#14b8a6', '#10b981', '#84cc16', '#9ca3af'];
-        const colorPalette2 = ['#8b5cf6', '#a855f7', '#d946ef', '#ec4899', '#f43f5e', '#f97316', '#9ca3af'];
+        const colorPalette2 = ['#8b5cf6', '#a855f7', '#c026d3', '#d946ef', '#ec4899', '#f43f5e', '#fb7185', '#f97316', '#fbbf24', '#eab308', '#9ca3af'];
 
         const tooltip = d3.select("#tooltip");
 

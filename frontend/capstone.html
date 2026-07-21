@@ -143,7 +143,7 @@
                     <li>นักวิชาการคอมพิวเตอร์ / วิศวกร และผู้เชี่ยวชาญด้านอื่นๆ</li>
                 </ol>
                 <!-- Chart Container 2.2 -->
-                <div id="pos-chart" class="chart-container shadow-sm h-[500px]"></div>
+                <div id="pos-chart" class="chart-container shadow-sm h-[680px]"></div>
                  <p class="text-center text-sm text-gray-500 italic mt-[-1rem]">แผนภูมิแสดงจำนวนผู้เข้าร่วมจำแนกตามตำแหน่งทางวิชาชีพ (Job Position)</p>
             </div>
 
@@ -259,18 +259,29 @@
             {"name": "สอท.", "onsite": 1,  "online": 0}
         ];
 
+        // แยกทุกตำแหน่งออกจากกัน (ไม่รวมเป็น "อื่นๆ") เรียงจากมากไปน้อย → รวม 64 คน (ออนไซต์ 46 / ออนไลน์ 18)
         const posData = [
             {"name": "นักภูมิสารสนเทศ", "onsite": 10, "online": 11},
-            {"name": "นักภูมิสารสนเทศชำนาญการพิเศษ", "onsite": 6, "online": 0},
             {"name": "วิศวกรชลประทานชำนาญการ", "onsite": 4, "online": 2},
+            {"name": "นักภูมิสารสนเทศชำนาญการพิเศษ", "onsite": 6, "online": 0},
             {"name": "นักพัฒนานวัตกรรม", "onsite": 3, "online": 1},
             {"name": "วิศวกรชลประทาน", "onsite": 1, "online": 2},
-            {"name": "นักภูมิสารสนเทศชำนาญการ", "onsite": 2, "online": 1},
             {"name": "วิศวกรชลประทานปฏิบัติการ", "onsite": 3, "online": 0},
+            {"name": "นักภูมิสารสนเทศชำนาญการ", "onsite": 2, "online": 1},
+            {"name": "ไม่ระบุตำแหน่ง", "onsite": 2, "online": 0},
+            {"name": "เจ้าหน้าที่ยุทธศาสตร์", "onsite": 2, "online": 0},
             {"name": "นักวิชาการคอมพิวเตอร์ชำนาญการ", "onsite": 2, "online": 0},
             {"name": "นักวิชาการฝึกอบรม", "onsite": 2, "online": 0},
-            {"name": "เจ้าหน้าที่ยุทธศาสตร์", "onsite": 2, "online": 0},
-            {"name": "อื่นๆ", "onsite": 11, "online": 1} // Aggregated remaining single roles for cleaner display
+            {"name": "ผู้อำนวยการกลุ่ม", "onsite": 1, "online": 0},
+            {"name": "วิศวกร", "onsite": 0, "online": 1},
+            {"name": "เจ้าหน้าที่ภูมิสารสนเทศ", "onsite": 1, "online": 0},
+            {"name": "นักวิชาการคอมพิวเตอร์ (พนักงานราชการ)", "onsite": 1, "online": 0},
+            {"name": "เจ้าหน้าที่เทคโนโลยีสารสนเทศ", "onsite": 1, "online": 0},
+            {"name": "หัวหน้าฝ่ายจัดการการเกษตร", "onsite": 1, "online": 0},
+            {"name": "หัวหน้าฝ่ายทรัพยากรธรรมชาติ", "onsite": 1, "online": 0},
+            {"name": "นักพัฒนานวัตกรรมชำนาญการ", "onsite": 1, "online": 0},
+            {"name": "เจ้าหน้าที่พัฒนาธุรกิจ", "onsite": 1, "online": 0},
+            {"name": "หัวหน้าฝ่ายพัฒนาและถ่ายทอดองค์ความรู้", "onsite": 1, "online": 0}
         ];
 
         // แยกทุกฝ่ายจริง (10 ฝ่าย) + กลุ่มภายนอก/ไม่ระบุฝ่าย → รวม 64 คน (ออนไซต์ 46 / ออนไลน์ 18)
@@ -487,9 +498,11 @@
 
             const width = container.node().getBoundingClientRect().width;
             const height = container.node().getBoundingClientRect().height;
+            // เมื่อมีหลายหมวด (>12) หมุน label เป็นแนวตั้งและเพิ่มพื้นที่ด้านล่าง
+            const manyBars = data.length > 12;
             // Larger bottom margin for long text in Sarabun
-            const margin = {top: 40, right: 20, bottom: 160, left: 50};
-            
+            const margin = {top: 40, right: 20, bottom: manyBars ? 230 : 160, left: 50};
+
             const innerWidth = width - margin.left - margin.right;
             const innerHeight = height - margin.top - margin.bottom;
 
@@ -509,9 +522,9 @@
                 .attr("transform", `translate(0,${innerHeight})`)
                 .call(d3.axisBottom(x))
                 .selectAll("text")
-                .attr("transform", "translate(-12,5)rotate(-45)")
+                .attr("transform", manyBars ? "translate(-4,8)rotate(-90)" : "translate(-12,5)rotate(-45)")
                 .style("text-anchor", "end")
-                .style("font-size", "13px")
+                .style("font-size", manyBars ? "11px" : "13px")
                 .style("font-family", "Sarabun")
                 .style("fill", "#4b5563");
 
